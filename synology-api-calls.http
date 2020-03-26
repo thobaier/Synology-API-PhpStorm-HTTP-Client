@@ -1,0 +1,19 @@
+### API INFO
+GET {{nas_host}}/webapi/query.cgi?api=SYNO.API.Info&version=1&method=query&query=all
+
+### CALENDAR API INFO
+GET {{nas_host}}/webapi/query.cgi?api=SYNO.API.Info&version=1&method=query&query=SYNO.Cal.Event
+
+### API LOGIN
+GET {{nas_host}}/webapi/auth.cgi?api=SYNO.API.Auth&method=login&version=3&account={{nas_user}}&passwd={{nas_password}}&format=sid&enable_syno_token=yes
+Content-Type: application/json
+
+> {% client.global.set("synology_token", response.headers.valueOf('X-SYNO-TOKEN')); %}
+
+### Create a new calendar (with credentials from step above)
+POST {{nas_host}}/webapi/entry.cgi
+X-SYNO-TOKEN: {{synology_token}}
+
+cal_description=&cal_displayname=calender_{{$uuid}}%20one&cal_color=#F94B4B&is_hidden_in_list=false&is_hidden_in_cal=false&is_todo=false&is_evt=true&api=SYNO.Cal.Cal&method=create&version=2
+
+### @todo: create event in calendar
