@@ -23,6 +23,9 @@ Returns an array of calendar objects.
 ### Create event in calendar
 Creates a new event in previously created calendar.
 
+### Delete calendar
+Deletes a given calendar.
+
 ...
 
 TBC

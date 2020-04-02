@@ -8,13 +8,10 @@ GET {{nas_host}}/webapi/query.cgi?api=SYNO.API.Info&version=1&method=query&query
 GET {{nas_host}}/webapi/auth.cgi?api=SYNO.API.Auth&method=login&version=3&account={{nas_user}}&passwd={{nas_password}}&format=sid&enable_syno_token=yes
 Content-Type: application/json
 
-> {%
-client.global.set("synology_token", response.headers.valueOf('X-SYNO-TOKEN'));
-client.global.set("sid", response.body.data.sid;
-%}
+> {% client.global.set("synology_token", response.headers.valueOf('X-SYNO-TOKEN')); %}
 
 ### API LOGOUT
-GET {{nas_host}}/webapi/auth.cgi?api=SYNO.API.Auth&version=1&method=logout&session=Calendar&_sid={{sid}}
+GET {{nas_host}}/webapi/auth.cgi?api=SYNO.API.Auth&version=1&method=logout&session=Calendar
 
 ### Create a new calendar (with credentials from step above)
 POST {{nas_host}}/webapi/entry.cgi
@@ -38,5 +35,13 @@ POST {{nas_host}}/webapi/entry.cgi
 X-SYNO-TOKEN: {{synology_token}}
 
 summary=test-description&cal_id={{cal_id}}&dtstart="TZID={{test_event_timezone_id}}:{{test_event_start_time}}"&dtend="TZID={{test_event_timezone_id}}:{{test_event_start_time}}"&is_all_day={{test_event_is_all_day}}&evt_notify_setting=[]&tz_id={{test_event_timezone_id}}&is_repeat_evt=false&evt_attendee=[]&original_cal_id={{original_cal_id}}&api=SYNO.Cal.Event&method=create&version=2&tz_ical={{test_event_ical_timezone_definition}}
+
+###
+
+### Delete a calendar
+POST {{nas_host}}/webapi/entry.cgi
+X-SYNO-TOKEN: {{synology_token}}
+
+cal_id={{cal_id}}&api=SYNO.Cal.Cal&method=delete&version=1
 
 ###
