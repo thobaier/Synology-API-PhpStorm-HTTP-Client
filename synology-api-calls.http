@@ -14,6 +14,17 @@ Content-Type: application/json
 POST {{nas_host}}/webapi/entry.cgi
 X-SYNO-TOKEN: {{synology_token}}
 
-cal_description=&cal_displayname=calender_{{$uuid}}%20one&cal_color=#F94B4B&is_hidden_in_list=false&is_hidden_in_cal=false&is_todo=false&is_evt=true&api=SYNO.Cal.Cal&method=create&version=2
+cal_description=&cal_displayname=calendar_{{$uuid}}&cal_color=#F94B4B&is_hidden_in_list=false&is_hidden_in_cal=false&is_todo=false&is_evt=true&api=SYNO.Cal.Cal&method=create&version=2
 
-### @todo: create event in calendar
+> {%
+client.global.set("cal_id", response.body.data.cal_id);
+client.global.set("original_cal_id", response.body.data.original_cal_id);
+%}
+
+### Create event in calendar
+POST {{nas_host}}/webapi/entry.cgi
+X-SYNO-TOKEN: {{synology_token}}
+
+summary=test-description&cal_id={{cal_id}}&dtstart="TZID={{test_event_timezone_id}}:{{test_event_start_time}}"&dtend="TZID={{test_event_timezone_id}}:{{test_event_start_time}}"&is_all_day={{test_event_is_all_day}}&evt_notify_setting=[]&tz_id={{test_event_timezone_id}}&is_repeat_evt=false&evt_attendee=[]&original_cal_id={{original_cal_id}}&api=SYNO.Cal.Event&method=create&version=2&tz_ical={{test_event_ical_timezone_definition}}
+
+###
