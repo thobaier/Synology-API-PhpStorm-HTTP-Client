@@ -21,6 +21,12 @@ client.global.set("cal_id", response.body.data.cal_id);
 client.global.set("original_cal_id", response.body.data.original_cal_id);
 %}
 
+### List calendar objects
+GET {{nas_host}}/webapi/entry.cgi?is_todo=false&is_evt=true&api=SYNO.Cal.Cal&method=list&version=2
+X-SYNO-TOKEN: {{synology_token}}
+
+###
+
 ### Create event in calendar
 POST {{nas_host}}/webapi/entry.cgi
 X-SYNO-TOKEN: {{synology_token}}
